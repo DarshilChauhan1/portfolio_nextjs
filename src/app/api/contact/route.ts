@@ -3,45 +3,49 @@ import { z } from "zod";
 import nodemailer from "nodemailer";
 
 // Email configuration
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Use App Password for Gmail
-  },
-});
 
 export const POST = async (request: NextRequest) => {
-  try {
-    const payload = await request.json();
-    
-    // Verify the payload with name, email, subject, and message
-    const schema = z.object({
-      name: z.string().min(1, "Name is required"),
-      email: z.string().email("Invalid email address"),
-      subject: z.string().min(1, "Subject is required"),
-      message: z.string().min(1, "Message is required"),
-    });
+    try {
+        const payload = await request.json();
 
-    const parsed = schema.safeParse(payload);
-    if (!parsed.success) {
-      return new Response(
-        JSON.stringify({ 
-          message: "Invalid payload", 
-          errors: parsed.error.issues 
-        }), 
-        { status: 400 }
-      );
-    }
+        // Verify the payload with name, email, subject, and message
+        const schema = z.object({
+            name: z.string().min(1, "Name is required"),
+            email: z.string().email("Invalid email address"),
+            subject: z.string().min(1, "Subject is required"),
+            message: z.string().min(1, "Message is required"),
+        });
 
-    const { name, email, subject, message } = parsed.data;
+        const parsed = schema.safeParse(payload);
+        if (!parsed.success) {
+            return new Response(
+                JSON.stringify({
+                    message: "Invalid payload",
+                    errors: parsed.error.issues
+                }),
+                { status: 400 }
+            );
+        }
 
-    // Email to you (the recipient)
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Your email where you want to receive messages
-      subject: `Portfolio Contact: ${subject}`,
-      html: `
+        const { name, email, subject, message } = parsed.data;
+        console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS);
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS, // Use App Password for Gmail
+            },
+            tls: { rejectUnauthorized: false  // Allow self-signed certificates
+            }
+        });
+
+
+        // Email to you (the recipient)
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER, // Your email where you want to receive messages
+            subject: `Portfolio Contact: ${subject}`,
+            html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
             New Portfolio Contact Message
@@ -65,14 +69,14 @@ export const POST = async (request: NextRequest) => {
           </div>
         </div>
       `,
-    };
+        };
 
-    // Auto-reply email to the sender
-    const autoReplyOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Thank you for contacting me!",
-      html: `
+        // Auto-reply email to the sender
+        const autoReplyOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Thank you for contacting me!",
+            html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
             Thank You for Your Message!
@@ -101,33 +105,33 @@ export const POST = async (request: NextRequest) => {
           </div>
         </div>
       `,
-    };
+        };
 
-    // Send both emails
-    await Promise.all([
-      transporter.sendMail(mailOptions),
-      transporter.sendMail(autoReplyOptions)
-    ]);
+        // Send both emails
+        await Promise.all([
+            transporter.sendMail(mailOptions),
+            transporter.sendMail(autoReplyOptions)
+        ]);
 
-    return new Response(
-      JSON.stringify({ 
-        message: "Email sent successfully! Thank you for your message." 
-      }), 
-      { 
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+        return new Response(
+            JSON.stringify({
+                message: "Email sent successfully! Thank you for your message."
+            }),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
-  } catch (error) {
-    console.error('Contact form error:', error);
-    return new Response(
-      JSON.stringify({ 
-        message: "Failed to send email. Please try again later." 
-      }), 
-      { status: 500 }
-    );
-  }
+    } catch (error) {
+        console.error('Contact form error:', error);
+        return new Response(
+            JSON.stringify({
+                message: "Failed to send email. Please try again later."
+            }),
+            { status: 500 }
+        );
+    }
 };
