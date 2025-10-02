@@ -95,7 +95,7 @@ const About = () => {
               style={{ background: 'linear-gradient(135deg, #0077C0 40%, #d0def9ff 100%)' }}
             ></div>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              I'm a passionate Backend Engineer with over 1.5 years of experience building 
+              I&apos;m a passionate Backend Engineer with over 1.5 years of experience building 
               scalable, high-performance systems. I specialize in designing robust APIs, 
               optimizing database performance, and implementing cloud-native solutions with 
               cutting-edge AI integration.

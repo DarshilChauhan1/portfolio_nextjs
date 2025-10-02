@@ -144,8 +144,8 @@ const Contact = () => {
             </h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Ready to start your next project? Let's discuss how we can work together 
-              to bring your ideas to life. I'm always excited to take on new challenges.
+              Ready to start your next project? Let&apos;s discuss how we can work together 
+              to bring your ideas to life. I&apos;m always excited to take on new challenges.
             </p>
           </motion.div>
 
@@ -154,12 +154,12 @@ const Contact = () => {
             <motion.div className="space-y-8" variants={itemVariants}>
               <div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6 font-playfair">
-                  Let's Connect
+                  Let&apos;s Connect
                 </h3>
                 <p className="text-gray-600 mb-8 leading-relaxed">
                   Whether you have a project in mind, want to discuss collaboration opportunities, 
-                  or just want to say hello, I'd love to hear from you. Drop me a message and 
-                  I'll get back to you as soon as possible.
+                  or just want to say hello, I&apos;d love to hear from you. Drop me a message and 
+                  I&apos;ll get back to you as soon as possible.
                 </p>
               </div>
 
@@ -275,7 +275,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-gray-900"
-                      placeholder="What's this about?"
+                      placeholder="What&apos;s this about?"
                     />
                   </div>
 
