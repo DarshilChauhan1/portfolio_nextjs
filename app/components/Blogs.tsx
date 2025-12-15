@@ -4,10 +4,13 @@ import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaArrowRight, FaCalendar, FaClock } from "react-icons/fa";
 import { client } from "@/sanity/client";
 import { type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const builder = imageUrlBuilder(client);
 
@@ -30,12 +33,25 @@ const Blogs = ({ posts }: BlogsProps) => {
         if (posts.length === 0) return;
 
         const ctx = gsap.context(() => {
+            // Blog card fade in
             gsap.from(".blog-card", {
                 y: 100,
                 opacity: 0,
                 duration: 0.8,
                 stagger: 0.2,
                 ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 80%",
+                }
+            });
+
+            // Image reveal effect (left to right)
+            gsap.to(".image-reveal-overlay", {
+                scaleX: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.inOut",
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 80%",
@@ -80,7 +96,7 @@ const Blogs = ({ posts }: BlogsProps) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {posts.map((post) => (
+                    {posts.map((post, index) => (
                         <div
                             key={post._id}
                             className="blog-card group cursor-pointer"
@@ -96,10 +112,12 @@ const Blogs = ({ posts }: BlogsProps) => {
                                     />
                                 )}
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500"></div>
+                                {/* Left-to-right reveal overlay */}
+                                <div className={`image-reveal-overlay absolute inset-0 bg-[#111] origin-left`} style={{ transformOrigin: 'right' }}></div>
                             </div>
 
                             <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                                <span className="flex items-center gap-1"><FaCalendar className="text-accent-green" /> {new Date(post.publishedAt).toLocaleDateString()}</span>
+                                <span className="flex items-center gap-1"><FaCalendar className="text-accent-green" /> {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                                 <span className="flex items-center gap-1"><FaClock className="text-accent-green" /> {post.readTime}</span>
                             </div>
 

@@ -21,6 +21,7 @@ export default function BlogDetail() {
     const params = useParams();
     const slug = params.slug;
     const transitionLayersRef = useRef<(HTMLDivElement | null)[]>([]);
+    const imageRevealRef = useRef<HTMLDivElement>(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [post, setPost] = useState<SanityDocument | null>(null);
 
@@ -48,6 +49,9 @@ export default function BlogDetail() {
 
             // Ensure layers are covering the screen initially
             gsap.set(transitionLayersRef.current, { y: "0%" });
+            
+            // Ensure image reveal overlay starts fully covering the image
+            gsap.set(imageRevealRef.current, { scaleX: 1 });
 
             // Animate layers away to reveal content
             tl.to(transitionLayersRef.current, {
@@ -56,7 +60,13 @@ export default function BlogDetail() {
                 stagger: 0.1,
                 ease: "power4.inOut",
                 delay: 0.2, // Small delay to ensure render
-            });
+            })
+            // Left-to-right image reveal
+            .to(imageRevealRef.current, {
+                scaleX: 0,
+                duration: 1.2,
+                ease: "power3.inOut",
+            }, "-=0.5");
         }
     }, [isLoaded, post]);
 
@@ -105,7 +115,7 @@ export default function BlogDetail() {
             </div>
 
             {/* Hero Image */}
-            <div className="relative w-full h-[50vh] md:h-[60vh]">
+            <div className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
                 {post.image && (
                     <Image
                         src={urlFor(post.image).width(1200).url()}
@@ -116,9 +126,16 @@ export default function BlogDetail() {
                         onLoad={() => setIsLoaded(true)}
                     />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-[#111]/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-[#111]/50 to-transparent z-10"></div>
+                
+                {/* Left-to-right reveal overlay */}
+                <div 
+                    ref={imageRevealRef} 
+                    className="absolute inset-0 bg-[#111] z-20"
+                    style={{ transformOrigin: 'right center' }}
+                ></div>
 
-                <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 container mx-auto max-w-4xl">
+                <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 container mx-auto max-w-4xl z-30">
                     <h1 className="font-oswald text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
                         {post.title}
                     </h1>
@@ -128,7 +145,7 @@ export default function BlogDetail() {
             {/* Content */}
             <div className="container mx-auto max-w-3xl px-6 py-16 md:py-24">
                 <div className="flex items-center gap-6 text-gray-400 mb-8 text-sm md:text-base border-b border-gray-800 pb-8">
-                    <span className="flex items-center gap-2"><FaCalendar className="text-accent-green" /> {new Date(post.publishedAt).toLocaleDateString()}</span>
+                    <span className="flex items-center gap-2"><FaCalendar className="text-accent-green" /> {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                     <span className="flex items-center gap-2"><FaClock className="text-accent-green" /> {post.readTime}</span>
                 </div>
 
