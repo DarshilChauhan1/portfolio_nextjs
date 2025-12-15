@@ -158,16 +158,8 @@ const Navbar = () => {
             {/* Desktop Navbar */}
             <nav
                 ref={navbarRef}
-                className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-6 bg-transparent pointer-events-none"
+                className="fixed top-0 left-0 w-full z-50 flex justify-end items-center px-8 py-6 bg-transparent pointer-events-none"
             >
-                {/* Logo */}
-                <div
-                    className={`text-white font-sans font-bold text-2xl pointer-events-auto cursor-pointer transition-opacity duration-500 ${showLogo ? "opacity-100" : "opacity-0"}`}
-                    onClick={() => handleLinkClick("hero")}
-                >
-                    DC
-                </div>
-
                 {/* Desktop Links */}
                 <ul ref={desktopLinksRef} className="hidden md:flex gap-8 pointer-events-auto">
                     {navLinks.map((link) => (
