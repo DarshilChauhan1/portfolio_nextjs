@@ -52,14 +52,14 @@ const Hero = () => {
                 {/* Text Content */}
                 <div className="flex flex-col justify-center md:h-full max-w-3xl z-20 text-left">
                     <h1 className="font-oswald text-3xl sm:text-5xl md:text-8xl lg:text-9xl font-bold uppercase leading-[0.9] tracking-tighter">
-                        <span ref={titleRef1} className="text-accent-green block opacity-0 translate-y-10">Backend</span>
+                        <span ref={titleRef1} className="text-accent-green block opacity-0 translate-y-10">Software</span>
                         <span ref={titleRef2} className="text-white block opacity-0 translate-y-10">Engineer</span>
                     </h1>
 
                     <div className="mt-4 sm:mt-8 max-w-xl">
                         <p ref={descRef} className="text-gray-400 text-sm sm:text-lg md:text-xl leading-relaxed opacity-0 translate-y-10">
-                            Hi! I'm <span className="text-white font-bold">Darshil Chauhan</span>.
-                            A Backend & DevOps Engineer with 2 years of experience in building scalable,
+                            Hi! I&apos;m <span className="text-white font-bold">Darshil Chauhan</span>.
+                            A Software Engineer with 3.5+ years of experience in building scalable,
                             high-performance systems.
                         </p>
                     </div>
@@ -72,7 +72,7 @@ const Hero = () => {
                         {/* Stats moved here for better mobile/desktop flow */}
                         <div className="hidden sm:flex gap-8">
                             <div>
-                                <h3 className="text-accent-green font-oswald text-3xl font-bold">2+</h3>
+                                <h3 className="text-accent-green font-oswald text-3xl font-bold">3.5+</h3>
                                 <p className="text-gray-400 text-xs uppercase tracking-wider">Years Exp.</p>
                             </div>
                             <div>

@@ -28,7 +28,7 @@ const About = () => {
                 {/* Middle: Content */}
                 <div className="md:w-1/2 flex flex-col gap-8 text-gray-400 text-lg leading-relaxed">
                     <p>
-                        I’m a Backend & DevOps Engineer focused on building scalable, reliable, and cloud-native systems using Node.js, NestJS, AWS, Docker, and modern infrastructure practices. Over the last few years, I’ve engineered microservices, automated cloud deployments, built real-time platforms, and worked across distributed systems that emphasize performance, security, and maintainability.
+                        I'm a Software Engineer focused on building scalable, reliable, and cloud-native systems using Node.js, NestJS, AWS, Docker, and modern infrastructure practices. Over the last few years, I've engineered microservices, automated cloud deployments, built real-time platforms, and worked across distributed systems that emphasize performance, security, and maintainability.
                     </p>
                     <p>
                         I enjoy solving backend challenges—whether it’s reducing API latency, designing fault-tolerant architectures, implementing queue-based workflows, or building end-to-end CI/CD pipelines. My work often revolves around high-throughput APIs, content-processing pipelines, authentication systems, and large-scale data platforms.
